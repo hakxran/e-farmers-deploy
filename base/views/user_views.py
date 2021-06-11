@@ -126,6 +126,27 @@ def updateUser(request, pk):
 
     return Response(serializer.data)
 
+@api_view(['POST'])
+def uploadUserImage(request):
+    
+    user = request.user
+    
+    user.farmerPicture = request.FILES.get('image')
+    
+    user.save()
+
+    return Response('Image was uploaded')
+
+@api_view(['POST'])
+def uploadFarmImage(request):
+    
+    user = request.user
+    
+    user.farmPicture = request.FILES.get('image')
+    
+    user.save()
+
+    return Response('Image was uploaded')
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])

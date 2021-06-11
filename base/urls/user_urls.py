@@ -10,8 +10,12 @@ urlpatterns = [
     
     
     path("profile/", views.getUserProfile, name="user-profile"),
+    
     path("profile/update/", views.updateUserProfile, name="user-profile-update"),
     
+    path("upload/user", views.uploadUserImage, name="image-user-uplaod"),
+    path("upload/farm", views.uploadFarmImage, name="image-farm-uplaod"),
+
     path("", views.getUsers, name="user"),
     
     path("<str:pk>/", views.getUserById, name="user"),

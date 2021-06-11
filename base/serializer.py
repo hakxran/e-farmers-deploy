@@ -30,6 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
         "description",
         "farmerPoint",
         "numReviews",
+        "farmerPicture",
+        "farmPicture",
         
         ]
         
@@ -70,6 +72,11 @@ class UserSerializer(serializers.ModelSerializer):
     def get_numReviews(self, obj):
         return obj.numReviews
     
+    def get_farmPicture(self, obj):
+        return obj.farmPicture
+    
+    def get_farmerPicture(self, obj):
+        return obj.farmerPicture
     
     
       

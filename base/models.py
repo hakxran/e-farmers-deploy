@@ -10,7 +10,7 @@ class User(AbstractUser):
     locationX = models.FloatField(default=0)
     locationY = models.FloatField(default=0)
     isFarmer = models.BooleanField(default=False)
-    farmerPicture = models.ImageField(null=True, blank=True)
+    farmerPicture = models.ImageField(null=True, blank=True, default="/placeholder.png")
     farmPicture = models.ImageField(null=True, blank=True, default="/placeholder.png")
     farmName = models.CharField(max_length=200, null=True, blank=True)
     address = models.CharField(max_length=400, null=True, blank=True)
