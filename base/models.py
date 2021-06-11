@@ -10,20 +10,20 @@ class User(AbstractUser):
     locationX = models.FloatField(default=0)
     locationY = models.FloatField(default=0)
     isFarmer = models.BooleanField(default=False)
-    farmerPicture = models.ImageField(null=True, blank=True, default="/placeholder.png")
+    farmerPicture = models.ImageField(null=True, blank=True)
     farmPicture = models.ImageField(null=True, blank=True, default="/placeholder.png")
     farmName = models.CharField(max_length=200, null=True, blank=True)
     address = models.CharField(max_length=400, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     farmerPoint = models.FloatField(default=0)
     numReviews = models.IntegerField(null=True, blank=True, default=0)
-
+    deposit = models.FloatField(default=0)
 
 class Product(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True, blank=True)
-    #image = models.ImageField(null=True, blank=True, default="/placeholder.png")
+    image = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     unit = models.CharField(max_length=200, null=True, blank=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
@@ -40,7 +40,6 @@ class Product(models.Model):
     isFarmProduct = models.BooleanField(default=True)
     productType = models.CharField(max_length=100, null=True, blank=True)
     harvestTime = models.DateTimeField(null=True,blank=True)
-    productType = models.CharField(max_length=100, null=True, blank=True)
     productionTime = models.DateTimeField(null=True,blank=True)
     
     def __str__(self):

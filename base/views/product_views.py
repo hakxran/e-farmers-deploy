@@ -14,6 +14,8 @@ from base.serializer import (
     
 )
 
+from django.db.models import Q
+
 
 from rest_framework import status
 
@@ -80,6 +82,10 @@ def updateProduct(request, pk):
     product.category = data['category']
     product.unitPrice = data['unitPrice']
     product.isFarmProduct = data['isFarmProduct']
+    product.productType = data['productType']
+    product.harvestTime = data['harvestTime']
+    product.productionTime = data['productionTime']
+
     
 
     product.save()
@@ -103,6 +109,9 @@ def updateFarmersProduct(request, pk):
         product.category = data['category']
         product.unitPrice = data['unitPrice']
         product.isFarmProduct = data['isFarmProduct']
+        product.productType = data['productType']
+        product.harvestTime = data['harvestTime']
+        product.productionTime = data['productionTime']
         
 
         product.save()
@@ -207,21 +216,21 @@ def createProductReview(request, pk):
 
 @api_view(["GET"])
 def getFilteredProductHighestPoints(request):
-    queryset = Product.objects.all().order_by("-productPoint")
+    queryset = Product.objects.filter(~Q(productPoint=None)).order_by("-productPoint")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
 def getFilteredProductHighestPrice(request):
-    queryset = Product.objects.all().order_by("-unitPrice")
+    queryset = Product.objects.filter(~Q(productPoint=None)).order_by("-unitPrice")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
 def getFilteredProductLowestPrice(request):
-    queryset = Product.objects.all().order_by("unitPrice")
+    queryset = Product.objects.filter(~Q(productPoint=None)).order_by("unitPrice")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
@@ -229,34 +238,149 @@ def getFilteredProductLowestPrice(request):
 @api_view(["GET"])
 def getFilteredProductWithPoints4_5AndHigher(request):
 
-    queryset = Product.objects.filter(productPoint__gte=4.5).order_by("-numReviews")
+    queryset = Product.objects.filter(
+        ~Q(productPoint=None) & Q(productPoint__gte=4.5)
+    ).order_by("-numReviews")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
 def getFilteredProductWithPoints4(request):
-    queryset = Product.objects.filter(productPoint__gte=4.0).order_by("-numReviews")
+    queryset = Product.objects.filter(
+        ~Q(productPoint=None) & Q(productPoint__gte=4.0)
+    ).order_by("-numReviews")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
 def getFilteredProductWithPoints3_5AndHigher(request):
-    queryset = Product.objects.filter(productPoint__gte=3.5).order_by("-numReviews")
+    queryset = Product.objects.filter(
+        ~Q(productPoint=None) & Q(productPoint__gte=3.5)
+    ).order_by("-numReviews")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
 @api_view(["GET"])
 def getFilteredProductWithPoints3(request):
-    queryset = Product.objects.filter(productPoint__gte=3).order_by("-numReviews")
+    queryset = Product.objects.filter(
+        ~Q(productPoint=None) & Q(productPoint__gte=3.0)
+    ).order_by("-numReviews")
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
+@api_view(["GET"])
+def getProductsFruits(request):
+    queryset = Product.objects.filter(category="Meyve")
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 
+@api_view(["GET"])
+def getProductsVegetables(request):
+    queryset = Product.objects.filter(category="Sebze")
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 
+@api_view(["GET"])
+def getProductsKuruyemis(request):
+    queryset = Product.objects.filter(category="Kuruyemisler")
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
 
+
+@api_view(["GET"])
+def getProductsDairy(request):
+    queryset = Product.objects.filter(category="Sut,Sut Urunleri")
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsMeat(request):
+    queryset = Product.objects.filter(category="Et,Tavuk,Sarkutleri")
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_0_10(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=0.0) & Q(unitPrice__lte=10.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_10_25(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=10.0) & Q(unitPrice__lte=25.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_25_50(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=25.0) & Q(unitPrice__lte=50.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_50_100(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=50.0) & Q(unitPrice__lte=100.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_100_250(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=100.0) & Q(unitPrice__lte=250.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_250_500(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=250.0) & Q(unitPrice__lte=500.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_500_750(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=500.0) & Q(unitPrice__lte=750.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_750_1000(request):
+    queryset = Product.objects.filter(
+        ~Q(unitPrice=None) & Q(unitPrice__gte=750.0) & Q(unitPrice__lte=1000.0)
+    )
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsPrice_gte_1000(request):
+    queryset = Product.objects.filter(~Q(unitPrice=None) & Q(unitPrice__gte=1000.0))
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)

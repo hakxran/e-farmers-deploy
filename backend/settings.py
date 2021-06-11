@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "storages",
+    
+    'storages',
     
     "base.apps.BaseConfig",
 ]
@@ -186,12 +187,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+#DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AWS_QUERYSTRING_AUTH = False
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = 'AKIA3R6YNNJFGZG5YUKM'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AKIA3R6YNNJFEWCZNPNK'
+#AWS_SECRET_ACCESS_KEY = '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'
+AWS_SECRET_ACCESS_KEY = 'qNQeFEWGBnV8ua3JTtqeliBpMJn72NHU4tm9Rvhs'
 AWS_STORAGE_BUCKET_NAME = 'efarm-bucket'
 
 if os.getcwd() == '/app':

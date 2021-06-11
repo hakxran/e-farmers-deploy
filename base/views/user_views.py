@@ -9,7 +9,6 @@ from django.contrib.auth import get_user_model
 
 from base.serializer import ProductSerializer, UserSerializer, UserSerializerWithToken
 
-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -131,6 +130,6 @@ def updateUser(request, pk):
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
 def deleteUser(request, pk):
-    userForDeletion = User.objects.get(id=pk)
+    userForDeletion = get_user_model().objects.get(id=pk)
     userForDeletion.delete()
     return Response('User was deleted')

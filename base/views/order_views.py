@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Q
 
+from django.db import connection
+
 
 from base.models import Product, Order , OrderItem, ShippingAddress,Box,BoxDelivery,ShipmentCompany,DirectDelivery
 from django.contrib.auth import get_user_model
@@ -69,23 +71,23 @@ def addOrderItems(request):
             product.countInStock -= item.qty
             product.save()
 
-        #(5)Create Box Delivery or DirectDelivery
-        if data['shippingAddress']['isBoxDelivery'] == True:
-            company = ShipmentCompany.objects.get(_id=1)
-            selectedBox = Box.objects.get(_id=1)
-            boxDelivery = BoxDelivery.objects.create(
-                shippingAddress=shipping,
-                shipmentCompany=Company,
-                user=user,
-                box=selectedBox,
-            )
-            boxDelivery.save()
+    #(5)Create Box Delivery or DirectDelivery
+    if data['shippingAddress']['isBoxDelivery'] == True:
+        company = ShipmentCompany.objects.get(_id=1)
+        selectedBox = Box.objects.get(_id=1)
+        boxDelivery = BoxDelivery.objects.create(
+            shippingAddress=shipping,
+            shipmentCompany=company,
+            user=user,
+            box=selectedBox,
+        )
+        boxDelivery.save()
 
-        else:
-            directDelivery=DirectDelivery.objects.create(
-                shippingAddress=shipping,
-                shipmentCompany=Company,
-            )
+    else:
+        directDel = DirectDelivery.objects.create(
+            shippingAddress=shipping,
+            shipmentCompany=company,
+        )
         
 
 
@@ -170,6 +172,8 @@ def updateOrderToPaid(request, pk):
 
     order.isPaid = True
     order.paidAt = datetime.now()
+
+    #order.totalPrice
     order.save()
 
     return Response('Order was paid')
