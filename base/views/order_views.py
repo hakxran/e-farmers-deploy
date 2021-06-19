@@ -113,10 +113,16 @@ def getOrders(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getQrIdForBox(request):
-    orders = Order.objects.all()
-    serializer = OrderBoxSerializer(orders, many=True)
-    return Response(serializer.data)
+def getQrIdForBox(request,pk):
+   
+    try:
+        orders = Order.objects.get(_id=pk)
+        return Response("True")
+            
+    except:
+        return Response("False")
+
+   
 
 """@api_view(['GET'])
 @permission_classes([IsAuthenticated])
