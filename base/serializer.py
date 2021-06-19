@@ -82,7 +82,16 @@ class UserSerializer(serializers.ModelSerializer):
       
     
    
+class OrderBoxSerializer(serializers.ModelSerializer):
+    _id = serializers.SerializerMethodField(read_only=True)
 
+    class Meta:
+        model = Order
+        fields =  ["_id",
+        ]
+        
+    def get__id(self, obj):
+        return obj._id
 
 
 class UserSerializerWithToken(UserSerializer):
