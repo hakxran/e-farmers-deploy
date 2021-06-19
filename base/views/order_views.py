@@ -113,7 +113,6 @@ def getOrders(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
 def getQrIdForBox(request):
     orders = Order.objects.all()
     serializer = OrderBoxSerializer(orders, many=True)

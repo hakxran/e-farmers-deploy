@@ -23,7 +23,7 @@ class Product(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, default="/placeholder.png")
     description = models.TextField(null=True, blank=True)
     unit = models.CharField(max_length=200, null=True, blank=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
