@@ -59,8 +59,7 @@ def createProduct(request):
             countInStock=0,
             category='Sample Category',
             unitPrice=0,
-
-            isFarmProduct=True,
+  
         )
 
         serializer = ProductSerializer(product, many=False)
@@ -81,9 +80,6 @@ def updateProduct(request, pk):
     product.countInStock = data['countInStock']
     product.category = data['category']
     product.unitPrice = data['unitPrice']
-    product.isFarmProduct = data['isFarmProduct']
-    product.productType = data['productType']
-    product.harvestTime = data['harvestTime']
     product.productionTime = data['productionTime']
 
     
@@ -108,9 +104,6 @@ def updateFarmersProduct(request, pk):
         product.countInStock = data['countInStock']
         product.category = data['category']
         product.unitPrice = data['unitPrice']
-        product.isFarmProduct = data['isFarmProduct']
-        product.productType = data['productType']
-        product.harvestTime = data['harvestTime']
         product.productionTime = data['productionTime']
         
 

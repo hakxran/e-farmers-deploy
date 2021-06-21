@@ -1,10 +1,12 @@
 from django.shortcuts import render
-
+import pyqrcode,io,qrcode
+from PIL import Image
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Q
+import boto3
 
 from django.db import connection
 
@@ -176,7 +178,33 @@ def getOrderById(request, pk):
     except:
         return Response({'detail':'Order does not exist'},status = status.HTTP_400_BAD_REQUEST)
 
+    
 
+@api_view(['GET'])
+def createqr(request):
+    #user = request.data
+    #serializer = UserSerializer(user, many=False)
+    a = "123"
+    x = a + ".png"
+    qr = pyqrcode.create(a)
+    
+    z=Image.open("1234.png")
+    print(type(z))
+   
+    #qr.png(x, scale=8)
+    #user.farmPicture = contents
+    #product_id = data['product_id']
+    product = Product.objects.get(_id=5)
+
+    
+
+    client = boto3.client('s3', region_name='us-west-2')
+    client.upload_file('1234.png', 'efarm-bucket', '1234.jpg')
+    #product.image = request.FILES.get('image')
+    product.image = x
+    product.save()
+    #user.save()
+    return Response('Image was uploaded')
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
