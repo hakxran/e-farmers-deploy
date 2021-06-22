@@ -78,6 +78,7 @@ class Order(models.Model):
     isDelivered = models.BooleanField(default=False)
     deliveredAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+    orderqr = models.ImageField(null=True, blank=True, default="/placeholder.png")
 
     def __str__(self):
         return str(self.createdAt)

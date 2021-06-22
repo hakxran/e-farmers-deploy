@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Q
 import boto3
+from botocore.exceptions import NoCredentialsError
+import os
+
 
 from django.db import connection
 
@@ -23,6 +26,24 @@ from base.serializer import (
 
 from rest_framework import status
 from datetime import datetime
+
+ACCESS_KEY = 'AKIA3R6YNNJFEWCZNPNK'
+SECRET_KEY = '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'
+
+def upload_to_aws(local_file, bucket, s3_file):
+    s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY,
+                      aws_secret_access_key=SECRET_KEY)
+
+    try:
+        s3.upload_file(local_file, bucket, s3_file)
+        print("Upload Successful")
+        return True
+    except FileNotFoundError:
+        print("The file was not found")
+        return False
+    except NoCredentialsError:
+        print("Credentials not available")
+        return False
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -180,16 +201,16 @@ def getOrderById(request, pk):
 
     
 
-@api_view(['GET'])
+@api_view(['GET'])#delete all
 def createqr(request):
     #user = request.data
     #serializer = UserSerializer(user, many=False)
-    a = "123"
+    a = "12345678"
     x = a + ".png"
     qr = pyqrcode.create(a)
-    
-    z=Image.open("1234.png")
-    print(type(z))
+    qr.png(x, scale=8)
+    #z=Image.open("12345.png")
+    uploaded = upload_to_aws(x, 'efarm-bucket', x)
    
     #qr.png(x, scale=8)
     #user.farmPicture = contents
@@ -198,11 +219,12 @@ def createqr(request):
 
     
 
-    client = boto3.client('s3', region_name='us-west-2')
-    client.upload_file('1234.png', 'efarm-bucket', '1234.jpg')
+    #client = boto3.client('s3', region_name='us-west-2')
+    #client.upload_file('1234.png', 'efarm-bucket', '1234.jpg')
     #product.image = request.FILES.get('image')
     product.image = x
     product.save()
+    os.remove(x) 
     #user.save()
     return Response('Image was uploaded')
 
@@ -211,11 +233,22 @@ def createqr(request):
 def updateOrderToPaid(request, pk):
     order = Order.objects.get(_id=pk)
 
+    a = str(pk)
+    x = a + ".png"
+    order.orderqr=x
+    qr = pyqrcode.create(a)
+    qr.png(x, scale=8)
+    uploaded = upload_to_aws(x, 'efarm-bucket', x)
+    
     order.isPaid = True
     order.paidAt = datetime.now()
+    
+
+    
 
     #order.totalPrice
     order.save()
+    os.remove(x) 
 
     return Response('Order was paid')
 
