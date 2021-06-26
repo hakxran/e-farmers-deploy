@@ -123,7 +123,7 @@ def deleteProduct(request, pk):
     return Response('Product Deleted')
 
 @api_view(["DELETE"])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
 def deleteFarmersProduct(request, pk):
     user = request.user
 
