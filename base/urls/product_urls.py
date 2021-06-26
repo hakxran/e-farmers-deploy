@@ -124,5 +124,5 @@ urlpatterns = [
     path("delete/<str:pk>/", views.deleteProduct, name="product-delete"),
 
     path("update/farmers/<str:pk>/", views.updateFarmersProduct, name="product-farmer-update"),
-    path("update/farmers/<str:pk>/", views.deleteFarmersProduct, name="product-farmer-delete"),
+    path("delete/farmers/<str:pk>/", views.deleteFarmersProduct, name="product-farmer-delete"),
 ]
