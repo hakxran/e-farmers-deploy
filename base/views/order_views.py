@@ -86,8 +86,8 @@ def addOrderItems(request):
                 product=product,
                 order=order,
                 name=product.name,
-                qty=i['qty'],
-                price=i['price'],
+                qty=i['count'],
+                price=i['unitPrice'],
                 image=product.image.url,
 
             )
