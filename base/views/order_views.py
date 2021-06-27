@@ -57,6 +57,7 @@ def addOrderItems(request):
     orderItems = data['orderItems']
 
     if orderItems and len(orderItems)== 0 :
+    
         return Response({'detail':'No Order Items'}, status = status.HTTP_400_BAD_REQUEST)
     else:
         #(1)Create Order
@@ -67,6 +68,7 @@ def addOrderItems(request):
             shippingPrice=data['shippingPrice'],
             totalPrice=data['totalPrice']
         )
+        ###
         #(2) Create Shipping Adress
         shipping = ShippingAddress.objects.create(
             order=order,
@@ -116,8 +118,8 @@ def addOrderItems(request):
 
 
 
-        serializer = OrderSerializer(order, many=False)
-        return Response(serializer.data)
+    serializer = OrderSerializer(order, many=False)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
