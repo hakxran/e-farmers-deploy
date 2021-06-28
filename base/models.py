@@ -18,6 +18,7 @@ class User(AbstractUser):
     farmerPoint = models.FloatField(default=0)
     numReviews = models.IntegerField(null=True, blank=True, default=0)
     deposit = models.FloatField(default=0)
+    
 
 class Product(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
@@ -38,6 +39,7 @@ class Product(models.Model):
     numReviews = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateTimeField(auto_now_add=True)
     productionTime = models.DateTimeField(null=True,blank=True)
+    distance = models.FloatField(default=0)
     
     def __str__(self):
         return self.name

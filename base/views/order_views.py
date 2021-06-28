@@ -210,7 +210,7 @@ def getOrderById(request, pk):
         return Response({'detail':'Order does not exist'},status = status.HTTP_400_BAD_REQUEST)
 
     
-
+'''
 @api_view(['GET'])#delete all
 def createqr(request):
     #user = request.data
@@ -237,6 +237,7 @@ def createqr(request):
     os.remove(x) 
     #user.save()
     return Response('Image was uploaded')
+    ''' 
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])

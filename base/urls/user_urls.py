@@ -7,6 +7,7 @@ urlpatterns = [
         "login/", views.MyTokenObtainPairView.as_view(), name="token_obtain_pair"
     ),
     path("register/",views.registerUser, name = 'register'),
+    #path("distance/",views.getDistance, name = 'distance'),
     
     
     path("profile/", views.getUserProfile, name="user-profile"),

@@ -18,6 +18,7 @@ from django.db.models import Q
 
 
 from rest_framework import status
+import math
 
 
 @api_view(["GET"])
@@ -205,7 +206,35 @@ def createProductReview(request, pk):
 
         return Response("Reviewed Succesfully")
 
+def getDistance(request):
+    user = request.user
+    serializer = UserSerializer(user, many=False)
 
+    x=user.locationX
+    y=user.locationY
+
+    products = Product.objects.all()
+
+    for product in products:
+        userID=product.user_id
+        user = get_user_model().objects.get(id=userID)
+        xs=(x-user.locationX)
+        ys=(y-user.locationY)
+        sqrt=(xs*xs)+(ys*ys)
+        distance=math.sqrt(sqrt)
+        product.distance = distance
+        product.save()
+        print(distance)
+ 
+    return Response(distance)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getFilteredProductLowestDistance(request):
+    getDistance(request)
+    queryset = Product.objects.filter(~Q(productPoint=None)).order_by("distance")
+    serializer = ProductSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 @api_view(["GET"])
 def getFilteredProductHighestPoints(request):

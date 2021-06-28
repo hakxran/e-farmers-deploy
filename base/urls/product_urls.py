@@ -7,6 +7,11 @@ urlpatterns = [
     path("", views.getProducts, name="products"),
     
     path(
+        "lowest-distance/",
+        views.getFilteredProductLowestDistance,
+        name="products-with-lowest-distance",
+    ),
+    path(
         "highest-points/",
         views.getFilteredProductHighestPoints,
         name="products-with-highest-points",

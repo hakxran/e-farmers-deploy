@@ -8,7 +8,7 @@ urlpatterns = [
     path('farmers/',views.getFarmersOrders, name='Farmer-orders'),
     path('add/', views.addOrderItems, name='orders-add'),
     path('myorders/',views.getMyOrders, name='myorders'),
-    path('qr/',views.createqr, name='qr'),
+    #path('qr/',views.createqr, name='qr'),
     
 
     path('<str:pk>/deliver/',views.updateOrderToDelivered, name='order-delivered'),
