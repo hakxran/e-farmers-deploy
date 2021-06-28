@@ -183,12 +183,22 @@ def getFarmersOrders(request):
             [user.id],
         )
         farmerOrder = cursor.fetchone()
-        for i in farmerOrder:
-            order = Order.objects.get(_id=i)
-            orders.append(order)
-           
+    OrderDeneme=Order.objects.raw('SELECT base_order._id FROM base_order,base_orderitem,base_product,base_user WHERE base_order._id = base_orderitem.order_id AND base_orderitem.product_id = base_product._id AND base_product.user_id = base_user.id AND base_user.id = %s', [user.id])
+    
+    for i in OrderDeneme:
+        
+        order = Order.objects.get(_id=i._id)
+        orders.append(order)
+    
+   
+    """
+    for i in farmerOrder:
+        #print(i._id)   
+        order = Order.objects.get(_id=i)
+        orders.append(order)
+    """
        
-        serializer = OrderSerializer(orders, many=True)
+    serializer = OrderSerializer(orders, many=True)
         
         
     return Response(serializer.data)
