@@ -177,12 +177,7 @@ def getFarmersOrders(request):
     user = request.user
     farmerUser = UserSerializer(user, many=False)
     orders = []
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT base_order._id FROM base_order,base_orderitem,base_product,base_user WHERE base_order._id = base_orderitem.order_id AND base_orderitem.product_id = base_product._id AND base_product.user_id = base_user.id AND base_user.id = %s",
-            [user.id],
-        )
-        farmerOrder = cursor.fetchone()
+    
     OrderDeneme=Order.objects.raw('SELECT base_order._id FROM base_order,base_orderitem,base_product,base_user WHERE base_order._id = base_orderitem.order_id AND base_orderitem.product_id = base_product._id AND base_product.user_id = base_user.id AND base_user.id = %s', [user.id])
     
     for i in OrderDeneme:
