@@ -16,6 +16,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 import math
+import sys
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -101,27 +102,31 @@ def getUsers(request):
 def updateUserProfile(request):
     user = request.user
     serializer = UserSerializerWithToken(user, many=False)
+    try:
+        data = request.data
+        user.first_name = data['name']
+        user.username = data['email']
+        user.email = data['email']
+        user.isFarmer = data['isFarmer']
+        user.locationX = data['locationX']
+        user.locationY = data['locationY']
+        user.farmName = data['farmName']
+        user.address = data['address']
+        user.description = data['description']
+        user.farmerPoint = data['farmerPoint']
+        user.numReviews = data['numReviews']
+        
 
-    data = request.data
-    user.first_name = data['name']
-    user.username = data['email']
-    user.email = data['email']
-    user.isFarmer = data['isFarmer']
-    user.locationX = data['locationX']
-    user.locationY = data['locationY']
-    user.farmName = data['farmName']
-    user.address = data['address']
-    user.description = data['description']
-    user.farmerPoint = data['farmerPoint']
-    user.numReviews = data['numReviews']
-    
+        if data['password'] != '':
+            user.password = make_password(data['password'])
 
-    if data['password'] != '':
-        user.password = make_password(data['password'])
+        user.save()
 
-    user.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data)
+    except:
+        print(sys.exc_info()[0])
+        message = {'detail':str(sys.exc_info()[0])}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
