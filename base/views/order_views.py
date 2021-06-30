@@ -117,7 +117,7 @@ def addOrderItems(request):
         
 
 
-    updateOrderToPaid(request, order._id)
+    #updateOrderToPaid(request, order._id)
     serializer = OrderSerializer(order, many=False)
     return Response(serializer.data)
 
