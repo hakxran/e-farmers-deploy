@@ -79,7 +79,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_farmerPicture(self, obj):
         return obj.farmerPicture
     def get_deposit(self, obj):
-        return obj.farmerPicture
+        return obj.deposit
     
     
       
