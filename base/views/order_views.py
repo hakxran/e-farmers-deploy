@@ -117,7 +117,7 @@ def addOrderItems(request):
         
 
 
-    #updateOrderToPaid(request, order._id)
+    updateOrderToPaid(order._id)
     serializer = OrderSerializer(order, many=False)
     return Response(serializer.data)
 
@@ -246,15 +246,15 @@ def createqr(request):
 
 #@api_view(['PUT'])
 #@permission_classes([IsAuthenticated])
-def updateOrderToPaid(request, pk):
+def updateOrderToPaid(pk):
     order = Order.objects.get(_id=pk)
     orderItems = OrderItem.objects.filter(order_id=pk)
     print(orderItems)
     for item in orderItems:
         
         product=Product.objects.get(_id=item.product_id)
-        
-        user = get_user_model().objects.get(id=product._id)
+        print(product.user_id)
+        user = get_user_model().objects.get(id=product.user_id)
        
         if(user.farmerPoint != 0.0):
             user.deposit=(float(item.qty)*float(item.price)*float(user.farmerPoint)*2.0)/10.0
