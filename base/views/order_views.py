@@ -257,7 +257,7 @@ def updateOrderToPaid(pk):
         user = get_user_model().objects.get(id=product.user_id)
        
         if(user.farmerPoint != 0.0):
-            user.deposit=(float(item.qty)*float(item.price)*float(user.farmerPoint)*2.0)/10.0
+            user.deposit=(float(item.qty)*float(item.price))-((float(item.qty)*float(item.price)/10.0)*(float(user.farmerPoint)*2.0)/10)
             user.save
         else:
             user.deposit=(float(item.qty)*float(item.price))
